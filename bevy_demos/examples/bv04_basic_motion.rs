@@ -18,7 +18,7 @@ fn main() {
                 title: TITLE.into(),
                 resolution: (WIN_W, WIN_H).into(),
                 present_mode: PresentMode::Fifo,
-                ..default()
+                ..default()     // indicates using the implemented default trait
             }),
             ..default()
         }))
@@ -43,12 +43,13 @@ fn setup(mut commands: Commands) {
 }
 
 fn move_player(input: Res<ButtonInput<KeyCode>>, mut player: Query<&mut Transform, With<Player>>) {
-    let mut player_transform = player.single_mut();
+    // transform = position within game world; querying state of game world (attributes) of items with player attribute
+    let mut player_transform = player.single_mut(); // we know there is only going to be one value, but if there were more, this would crash
 
     let mut x_vel = 0.;
     let mut y_vel = 0.;
 
-    if input.pressed(KeyCode::KeyA) {
+    if input.pressed(KeyCode::KeyA) {   // .pressed() checks if it's currently being pressed
         x_vel -= 1.;
     }
 
