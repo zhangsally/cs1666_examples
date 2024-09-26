@@ -61,7 +61,7 @@ fn main() {
         }))
         .add_systems(Startup, setup)
         .add_systems(Update, move_player)
-        .add_systems(Update, move_camera.after(move_player))
+        .add_systems(Update, move_camera.after(move_player))    // tells scheduler to move camera only after moving the player
         .run();
 }
 
@@ -200,5 +200,5 @@ fn move_camera(
     let pt = player.single();
     let mut ct = camera.single_mut();
 
-    ct.translation.x = pt.translation.x.clamp(0., LEVEL_LEN - WIN_W);
+    ct.translation.x = pt.translation.x.clamp(0., LEVEL_LEN - WIN_W);   // bounds in which camera can move
 }

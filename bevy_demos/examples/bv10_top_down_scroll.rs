@@ -10,8 +10,8 @@ const ACCEL_RATE: f32 = 5000.;
 
 const TILE_SIZE: u32 = 100;
 
-const LEVEL_W: f32 = 1920.;
-const LEVEL_H: f32 = 1080.;
+const LEVEL_W: f32 = 1920.; // larger than window size gives the scrolling
+const LEVEL_H: f32 = 1080.; // larger than window size gives the scrolling
 
 enum PlayerType {
     Bird,
@@ -142,7 +142,7 @@ fn move_player(
     let change = pv.velocity * deltat;
 
     let new_pos = pt.translation + Vec3::new(change.x, 0., 0.);
-    if new_pos.x >= -(LEVEL_W / 2.) + (TILE_SIZE as f32) / 2.
+    if new_pos.x >= -(LEVEL_W / 2.) + (TILE_SIZE as f32) / 2.       // before, the level width/height was the same as the window width/height, but we were always constraining to level size
         && new_pos.x <= LEVEL_W / 2. - (TILE_SIZE as f32) / 2.
     {
         pt.translation = new_pos;

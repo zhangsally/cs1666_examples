@@ -31,15 +31,15 @@ struct Velocity {
 }
 
 impl Velocity {
-    fn new() -> Self {
+    fn new() -> Self {          // Self is the type we're implementing for
         Self {
             velocity: Vec2::splat(0.),
         }
     }
 }
 
-impl From<Vec2> for Velocity {
-    fn from(velocity: Vec2) -> Self {
+impl From<Vec2> for Velocity {  // rewatch 9/23 lecture 8 minutes in
+    fn from(velocity: Vec2) -> Self {   // takes argument of Vec2 (not reference)
         Self { velocity }
     }
 }
@@ -69,20 +69,20 @@ fn setup(
 ) {
     commands.spawn(Camera2dBundle::default());
 
-    for start_x in [0., WIN_W] {
+    for start_x in [0., WIN_W] {    // one spawned at x = 0. and one spawned at x = WIN_W
         commands.spawn((
             SpriteBundle {
                 texture: asset_server.load("small_bg.png"),
                 transform: Transform::from_xyz(start_x, 0., 0.),
                 ..default()
             },
-            Velocity::from(Vec2::new(SCROLL_SPEED, 0.)),
+            Velocity::from(Vec2::new(SCROLL_SPEED, 0.)),    // speed of the scroll
             Background,
         ));
     }
 
     let bird_sheet_handle = asset_server.load("birds.png");
-    let bird_layout = TextureAtlasLayout::from_grid(UVec2::splat(TILE_SIZE), 2, 2, None, None);
+    let bird_layout = TextureAtlasLayout::from_grid(UVec2::splat(TILE_SIZE), 2, 2, None, None); // this vector specifies the size of the sprites in the sprite sheet
     let bird_layout_handle = texture_atlases.add(bird_layout);
     commands.spawn((
         SpriteBundle {
@@ -143,12 +143,12 @@ fn move_player(
     let deltat = time.delta_seconds();
     let acc = ACCEL_RATE * deltat;
 
-    pv.velocity = if deltav.length() > 0. {
-        (pv.velocity + (deltav.normalize_or_zero() * acc)).clamp_length_max(PLAYER_SPEED)
-    } else if pv.velocity.length() > acc {
-        pv.velocity + (pv.velocity.normalize_or_zero() * -acc)
-    } else {
-        Vec2::splat(0.)
+    pv.velocity = if deltav.length() > 0. { // if player input 
+        (pv.velocity + (deltav.normalize_or_zero() * acc)).clamp_length_max(PLAYER_SPEED)   // normalizes the vector so max speed is 1 in any direction
+    } else if pv.velocity.length() > acc {  // else if no player input but still have some speed
+        pv.velocity + (pv.velocity.normalize_or_zero() * -acc)  // slow down instead of immediately stopping
+    } else {                                // else speed is less than acceleration so just stop moving
+        Vec2::splat(0.) // not moving anymore
     };
     let change = pv.velocity * deltat;
 

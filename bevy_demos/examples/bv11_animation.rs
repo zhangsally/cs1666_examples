@@ -199,12 +199,13 @@ fn animate_player(
     >,
 ) {
     let (v, mut texture_atlas, mut timer, frame_count) = player.single_mut();
+    //let temp: () = frame_count; // will tell you what the type is somehow?
     if v.velocity.cmpne(Vec2::ZERO).any() {
         timer.tick(time.delta());
 
-        // if timer.just_finished() {
-        texture_atlas.index = (texture_atlas.index + 1) % **frame_count;
-        // }
+        if timer.just_finished() {
+            texture_atlas.index = (texture_atlas.index + 1) % **frame_count;    //** is a double dereference
+        }
     }
 }
 
