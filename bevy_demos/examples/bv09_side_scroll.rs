@@ -116,7 +116,7 @@ fn setup(
     let mut t = Vec3::new(
         -WIN_W / 2. + (TILE_SIZE as f32) / 2.,
         -WIN_H / 2. + (TILE_SIZE as f32) / 2.,
-        0.,
+        1.,
     );
     while i * TILE_SIZE < (LEVEL_LEN as u32) {
         info!("Spawning brick at {:?}", t);
